@@ -1,0 +1,81 @@
+local p = game:GetService("Players").LocalPlayer
+local uis = game:GetService("UserInputService")
+local rs = game:GetService("RunService")
+local fly = false
+local s = 70
+local k = Enum.KeyCode.F
+local c = {F = 0, B = 0, L = 0, R = 0, U = 0, D = 0}
+local r, h, bg, bv
+local function on()
+    local char = p.Character or p.CharacterAdded:Wait()
+    r = char:WaitForChild("HumanoidRootPart")
+    h = char:WaitForChild("Humanoid")
+    bg = Instance.new("BodyGyro")
+    bg.P = 9e4
+    bg.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
+    bg.CFrame = workspace.CurrentCamera.CFrame
+    bg.Parent = r
+
+
+    
+    bv = Instance.new("BodyVelocity")
+    bv.Velocity = Vector3.zero
+    bv.MaxForce = Vector3.new(9e9, 9e9, 9e9)
+    bv.Parent = r
+    h.PlatformStand = true
+    fly = true
+    for _, key in ipairs({Enum.KeyCode.W, Enum.KeyCode.A, Enum.KeyCode.S, Enum.KeyCode.D, Enum.KeyCode.E, Enum.KeyCode.Q}) do
+        if uis:IsKeyDown(key) then
+            if key == Enum.KeyCode.W then c.F = 1
+            elseif key == Enum.KeyCode.S then c.B = -1
+            elseif key == Enum.KeyCode.A then c.L = -1
+            elseif key == Enum.KeyCode.D then c.R = 1
+            elseif key == Enum.KeyCode.E then c.U = 1
+            elseif key == Enum.KeyCode.Q then c.D = -1
+            end
+        end
+    end
+end
+local function off()
+    fly = false
+    if h then h.PlatformStand = false end
+    if bg then bg:Destroy() end
+    if bv then bv:Destroy() end
+    c = {F = 0, B = 0, L = 0, R = 0, U = 0, D = 0}
+end
+uis.InputBegan:Connect(function(i, gp)
+    if gp then return end
+    if i.KeyCode == k then
+        if fly then off() else on() end
+    elseif i.KeyCode == Enum.KeyCode.W then c.F = 1
+    elseif i.KeyCode == Enum.KeyCode.S then c.B = -1
+    elseif i.KeyCode == Enum.KeyCode.A then c.L = -1
+    elseif i.KeyCode == Enum.KeyCode.D then c.R = 1
+    elseif i.KeyCode == Enum.KeyCode.E then c.U = 1
+    elseif i.KeyCode == Enum.KeyCode.Q then c.D = -1
+    end
+end)
+uis.InputEnded:Connect(function(i)
+    if i.KeyCode == Enum.KeyCode.W then c.F = 0
+    elseif i.KeyCode == Enum.KeyCode.S then c.B = 0
+    elseif i.KeyCode == Enum.KeyCode.A then c.L = 0
+    elseif i.KeyCode == Enum.KeyCode.D then c.R = 0
+    elseif i.KeyCode == Enum.KeyCode.E then c.U = 0
+    elseif i.KeyCode == Enum.KeyCode.Q then c.D = 0
+    end
+end)
+rs.RenderStepped:Connect(function()
+    if fly and r then
+        local cam = workspace.CurrentCamera.CFrame
+        local v = Vector3.zero
+        v += cam.LookVector * (c.F + c.B)
+        v += cam.RightVector * (c.R + c.L)
+        v += cam.UpVector * (c.U + c.D)
+        if v.Magnitude > 0 then
+            bv.Velocity = v.Unit * s
+        else
+            bv.Velocity = Vector3.zero
+        end
+        bg.CFrame = cam
+    end
+end)
