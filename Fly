@@ -2,7 +2,7 @@ local p = game:GetService("Players").LocalPlayer
 local uis = game:GetService("UserInputService")
 local rs = game:GetService("RunService")
 local fly = false
-local s = 70
+local s = _G.speed
 local k = Enum.KeyCode.F
 local c = {F = 0, B = 0, L = 0, R = 0, U = 0, D = 0}
 local r, h, bg, bv
