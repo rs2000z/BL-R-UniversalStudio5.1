@@ -30,8 +30,8 @@ local function on()
             elseif key == Enum.KeyCode.S then c.B = -1
             elseif key == Enum.KeyCode.A then c.L = -1
             elseif key == Enum.KeyCode.D then c.R = 1
-            elseif key == Enum.KeyCode.E then c.U = 1
-            elseif key == Enum.KeyCode.Q then c.D = -1
+            elseif key == Enum.KeyCode.Z then c.U = 1
+            elseif key == Enum.KeyCode.X then c.D = -1
             end
         end
     end
@@ -51,8 +51,8 @@ uis.InputBegan:Connect(function(i, gp)
     elseif i.KeyCode == Enum.KeyCode.S then c.B = -1
     elseif i.KeyCode == Enum.KeyCode.A then c.L = -1
     elseif i.KeyCode == Enum.KeyCode.D then c.R = 1
-    elseif i.KeyCode == Enum.KeyCode.E then c.U = 1
-    elseif i.KeyCode == Enum.KeyCode.Q then c.D = -1
+    elseif i.KeyCode == Enum.KeyCode.Z then c.U = 1
+    elseif i.KeyCode == Enum.KeyCode.X then c.D = -1
     end
 end)
 uis.InputEnded:Connect(function(i)
@@ -60,8 +60,8 @@ uis.InputEnded:Connect(function(i)
     elseif i.KeyCode == Enum.KeyCode.S then c.B = 0
     elseif i.KeyCode == Enum.KeyCode.A then c.L = 0
     elseif i.KeyCode == Enum.KeyCode.D then c.R = 0
-    elseif i.KeyCode == Enum.KeyCode.E then c.U = 0
-    elseif i.KeyCode == Enum.KeyCode.Q then c.D = 0
+    elseif i.KeyCode == Enum.KeyCode.Z then c.U = 0
+    elseif i.KeyCode == Enum.KeyCode.X then c.D = 0
     end
 end)
 rs.RenderStepped:Connect(function()
